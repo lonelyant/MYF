@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>洺媛坊|后台管理系统登录</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<script src="/js/mui.js"></script>
+		<script src="/js/jquery-2.1.1.js"></script>
+		<link href="/css/mui.css" rel="stylesheet"/>
+		<style>
+			.mui-btn {
+				margin: 5px 15px 10px 5px;
+				
+			}
+			.mui-button-row{
+				margin: 0 auto;
+			}
+			#submit {
+				text-align: center;
+				width: 50%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<script type="text/javascript">
+			mui.init()
+		</script>
+		<div class="mui-content">
+			<div class="mui-card" style="margin-top: 30%;">
+				<div class="mui-card-content">
+					<div class="mui-card-content-inner">
+						<h3 style="text-align: center;">请输入管理密码</h3><br>
+						<div class="mui-input-row mui-password">
+							<form action="/login" id="loginform">
+								<input type="password" class="mui-input-password" id="pwd">
+							</form>
+						</div>
+						<div class="mui-button-row">
+							<button id="submit" type="button" data-loading-text="验证中..." class="mui-btn mui-btn-primary submit">提 交</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script>
+		$(function() {
+		
+			mui(document.body).on('tap', '.mui-btn', function(e) {
+		
+				var check = false;
+				mui(".mui-input-password").each(function() {
+					//若当前input为空，则alert提醒 
+					if (!this.value || this.value.trim() == "") {
+						mui.alert("密码都没填就提交吗？");
+						return;
+					}else {
+					    check = true;
+					}
+				}); //校验通过，继续执行业务逻辑 
+				if (check) {
+					mui(this).button('loading');
+                    $.ajax({
+                        url:'/asklogin',
+                        data: {
+                            pwd:mui("#pwd")[0].value
+                        },
+                        dataType: 'json', //服务器返回json格式数据
+                        headers:{'Content-Type':'application/json'},
+                        success: function(data) {
+                            //服务器返回响应，根据响应结果，分析是否登录成功；
+                            if(data.status){
+                                window.location.href='/admin';
+                            }else {
+                                mui.alert(data.info);
+                            }
+                            console.log(data);
+                            mui("#submit").button('reset');
+                        },
+                        error: function(xhr, type, errorThrown) {
+                            //异常处理；
+                            var errormsg = "服务器可能去蹦迪了 o(╥﹏╥)o\n重试如果仍无法登录，请联系Ant\nQQ：891575283\n\n错误原因：";
+
+                            if (type == "abort") {
+                                errormsg += "与服务器无法通讯！";
+                            } else if (type == "timeout") {
+                                errormsg += "服务器响应超时！";
+                            } else {
+                                errormsg += type;
+                            }
+                            mui.alert(errormsg);
+                            mui("#submit").button('reset');
+                        }
+                    })
+				}
+			});
+		})
+	</script>
+</html>

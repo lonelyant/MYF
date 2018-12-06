@@ -1,0 +1,36 @@
+#popover{
+    background-color: #efeff4;
+}
+.mui-input-row label{
+    width: 25%;
+}
+.mui-input-row label~input,  .mui-input-row label~textarea{
+    float: none;
+}
+.mui-button-row{
+    text-align: center;
+}
+.mui-btn-primary,.mui-btn-danger{
+    width: 30%;
+    margin: auto 1rem;
+}
+.mui-input-row .mui-switch , #p_category{
+    float: left;
+}
+#desc{
+    height: 8rem;
+}
+#p_desc{
+    height: 7.8rem;
+    font-size: smaller;
+}
+#image{
+    height: 150px;
+    padding-top: 1rem;
+}
+#p_imgurl{
+    display: none;
+}
+.showred{
+    border: 1px solid red;
+}

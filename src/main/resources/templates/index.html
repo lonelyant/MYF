@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>季泉产品</title>
+    <script src="/js/mui.min.js"></script>
+    <script src="/js/jquery-2.1.1.js"></script>
+    <script src="/js/index.js"></script>
+    <script src="/js/jquery.lazyload.js"></script>
+    <!--<script src="/js/mui.lazyload.js"></script>
+    <script src="/js/mui.lazyload.img.js"></script>-->
+    <script src="/js/mui.zoom.js"></script>
+    <script src="/js/mui.previewimage.js"></script>
+
+    <link href="/css/mui.min.css" rel="stylesheet"/>
+    <link href="/css/index.css" rel="stylesheet"/>
+    <script type="text/javascript" charset="utf-8">
+        mui.init();
+    </script>
+</head>
+<body>
+<!-- 缩放式侧滑（类手机QQ） -->
+<!-- 侧滑导航根容器 -->
+<div class="mui-popover" id="code"><img src="/img/logo/wechatCode.jpg" width="70%"><br>长按识别二维码，获取更多优惠！</div>
+
+<div class="mui-off-canvas-wrap mui-draggable mui-scalable">
+
+    <!-- 菜单容器 -->
+    <aside class="mui-off-canvas-left mui-transitioning" id="offCanvasSide">
+        <div class="mui-scroll-wrapper">
+            <div class="mui-scroll" id="navi">
+                <div class="mui-card" style="margin-bottom: 35px;">
+                    <ul class="mui-table-view">
+                        <h4 style="text-align: center">季泉</h4>
+                        <li class="mui-table-view-cell" href="/showCategory?category=1">
+                            <a class="mui-navigate-right">
+                                套装系列
+                            </a>
+                        </li>
+                        <li class="mui-table-view-cell" href="/showCategory?category=2">
+                            <a class="mui-navigate-right">
+                                单品系列
+
+                            </a>
+                        </li>
+                        <li class="mui-table-view-cell" href="/showCategory?category=3">
+                            <a class="mui-navigate-right">
+                                面膜系列
+                            </a>
+                        </li>
+                        <li class="mui-table-view-cell" href="/showCategory?category=4">
+                            <a class="mui-navigate-right">
+                                塑形减脂
+                            </a>
+                        </li>
+                        <h4 style="text-align: center;margin-top: 1rem">香仁堂</h4>
+                        <li class="mui-table-view-cell" href="/showCategory?category=5">
+                            <a class="mui-navigate-right">
+                                健康养生
+                            </a>
+                        </li>
+                        <li class="mui-table-view-cell" href="/showCategory?category=6">
+                            <a class="mui-navigate-right">
+                                排毒养颜
+                            </a>
+                        </li>
+                        <h4 style="text-align: center;margin-top: 1rem">护发养发</h4>
+                        <li class="mui-table-view-cell" href="/showCategory?category=7">
+                            <a class="mui-navigate-right">
+                                植物养发
+                            </a>
+                        </li>
+                        <li class="mui-table-view-cell" href="/showCategory?category=8">
+                            <a class="mui-navigate-right">
+                                健康洗护
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="myfooter">
+
+                <label><b>张利勇 女士</b></label><br>
+                <a id="telephone"><span class="mui-icon mui-icon-phone"></span> 13035368998</a> | <a href="#code"
+                                                                                                     id="openPopover"><span
+                    class="mui-icon mui-icon-weixin"></span> z970398681</a><br>
+                <label><b>CopyRight © 洺媛坊</b></label>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 主页面容器 -->
+    <div class="mui-inner-wrap mui-transitioning">
+        <!-- 主页面标题 -->
+        <header class="mui-bar mui-bar-nav" >
+            <a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left" href="#offCanvasSide">
+                <font size="4"> 分类</font>
+            </a>
+            <h1 class="mui-title" th:switch="${session.category}">
+                <span th:case="1">季泉 - 套装系列</span>
+                <span th:case="2">季泉 - 单品系列</span>
+                <span th:case="3">季泉 - 面膜系列</span>
+                <span th:case="4">季泉 - 塑形减脂</span>
+                <span th:case="5">香仁堂 - 健康养生</span>
+                <span th:case="6">香仁堂 - 排毒养颜</span>
+                <span th:case="7">护发养发 - 植物养发</span>
+                <span th:case="8">护发养发 - 健康洗护</span>
+            </h1>
+        </header>
+
+        <div class="mui-content mui-scroll-wrapper" id="pullrefresh">
+            <div class="mui-scroll" id="list">
+                <!-- 主界面具体展示内容 -->
+
+                <div class="mui-card" th:each="product,pindex : ${session.productList}">
+                    <!--页眉，放置标题-->
+                    <div class="mui-card-header">
+                        <div class="mui-media-body">
+                            <b th:text="${product.getP_name()}" style="font-size: 1.1rem"></b>
+                            <p style="color: #FF5053;font-size: 18px;display: block;padding-top: 2px;"><b>￥ <span
+                                    th:text="${product.getP_price()}"></span></b></p>
+                        </div>
+                    </div>
+                    <!--内容区-->
+                    <div class="mui-card-content">
+                        <!--<img class="product-image" th:attr="data-lazyload='/img/product/'+${product.getP_imgurl()},data-preview-group=${pindex.index}" data-preview-src="">-->
+                        <img src="/img/logo/loading.gif" class="product-image lazy" th:attr="data-original='/img/product/'+${product.getP_imgurl()},data-preview-group=${pindex.index}" data-preview-src="">
+                    </div>
+                    <!--页脚，放置补充信息或支持的操作-->
+                    <div class="mui-card-footer"><span th:text="${product.getP_desc()}"></span></div>
+                </div>
+
+
+                <div id="end">
+                    <label><b> - 没有更多啦 - </b></label><br>
+                </div>
+            </div>
+        </div>
+        <div class="mui-off-canvas-backdrop"></div>
+    </div>
+</div>
+</body>
+<script>
+    mui.previewImage();
+</script>
+</html>

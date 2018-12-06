@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>洺媛坊 | 后台管理</title>
+    <script src="/js/mui.min.js"></script>
+    <script src="/js/jquery-2.1.1.js"></script>
+    <script src="/js/jquery.lazyload.js"></script>
+    <script src="/js/admin.js"></script>
+    <script src="/js/uploadPreview.js"></script>
+    <link href="/css/mui.min.css" rel="stylesheet"/>
+    <link href="/css/admin.css" rel="stylesheet"/>
+
+</head>
+<body>
+<header class="mui-bar mui-bar-nav">
+    <a class="mui-icon mui-icon-plusempty mui-pull-right" id="btn"><span style="font-size: medium">添加</span></a>
+    <a class="mui-icon mui-icon-minus mui-pull-left" id="logout"><span style="font-size: medium">注销</span></a>
+    <h1 class="mui-title">洺媛坊 | 产品管理</h1>
+</header>
+<div class="mui-content  ">
+
+    <h5 class="mui-content-padded" style="margin: 15px 10px;">向左滑动选择<span
+            class="mui-icon mui-icon-compose"></span>修改或<span
+            class="mui-icon mui-icon-trash"></span>删除</h5>
+    <h5 class="mui-content-padded" style="margin: 15px 10px;"><span class="mui-icon mui-icon-checkmarkempty"></span>展示中
+        <span class="mui-icon mui-icon-closeempty"></span>已下架</h5>
+    <ul id="show" class="mui-table-view">
+        <li class="mui-table-view-cell mui-media" th:each="product,pindex : ${session.productList}">
+            <div class="mui-slider-right mui-disabled">
+                <a class="mui-btn mui-btn-yellow mui-icon mui-icon mui-icon-compose update" th:attr="p_id=${product.getId()}"></a>
+                <a class="mui-btn mui-btn-red mui-icon mui-icon-trash del" th:attr="p_id=${product.getId()},p_name=${product.getP_name()}"></a>
+            </div>
+            <div class="mui-slider-handle">
+                <div class="mui-table-cell" style="width: 405px">
+                    <!--<img class="mui-media-object mui-pull-left"
+                         th:attr="data-lazyload='/img/product/'+${product.getP_imgurl()},data-preview-group=${pindex.index}"
+                         data-preview-src="" style="width: 42px;height: 42px">-->
+                    <img class="mui-media-object mui-pull-left lazy"
+                         src="/img/logo/loading.gif"
+                         th:attr="data-original='/img/product/'+${product.getP_imgurl()},data-preview-group=${pindex.index}"
+                         data-preview-src="" width="42px" height="42px">
+                    <div class="mui-media-body">
+                        <span th:text="${product.getP_name()}"></span>&nbsp;
+                        <span style="color: coral">￥<span th:text="${product.getP_price()}"></span></span>&nbsp;
+                        <span th:class="${product.getP_isShow()} ? 'mui-icon mui-icon-checkmarkempty' : 'mui-icon mui-icon-closeempty'"></span>
+                        <p class='mui-ellipsis' th:text="${product.getP_desc()}"></p>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <h5 class="mui-content-padded" style="margin: 15px 10px;text-align: center"> - 没有更多了 -</h5>
+</div>
+<div class="mui-modal" id="popover">
+    <div class="mui-scroll-wrapper">
+        <div class="mui-scroll">
+            <div class="mui-card">
+                <h3 style="text-align: center;margin-top: 1rem">产品添加</h3><br>
+                <form class="mui-input-group">
+                    <input type="hidden" value="0" id="p_id">
+                    <div class="mui-input-row">
+                        <label>产品名称</label>
+                        <input type="text" class="mui-input-clear" placeholder="请输入产品名称" id="p_name">
+                    </div>
+                    <div class="mui-input-row">
+                        <label> 价　格</label>
+                        <input type="number" class="mui-input-clear" placeholder="请输入产品价格" id="p_price">
+                    </div>
+                    <div class="mui-input-row">
+                        <label> 分　类</label>
+                        <select id="p_category">
+                            <option value="1">季泉 - 套装系列</option>
+                            <option value="2">季泉 - 单品系列</option>
+                            <option value="3">季泉 - 面膜系列</option>
+                            <option value="4">季泉 - 塑形减脂</option>
+                            <option value="5">香仁堂 - 健康养生</option>
+                            <option value="6">香仁堂 - 排毒养颜</option>
+                            <option value="7">护发养发 - 植物养发</option>
+                            <option value="8">护发养发 - 健康护发</option>
+                        </select>
+                        <!--<input type="number" class="mui-input-clear" placeholder="请输入产品价格" id="p_category">-->
+                    </div>
+                    <div class="mui-input-row">
+                        <label>是否展示</label>
+                        <!--<input type="number" class="mui-input-clear" placeholder="请输入产品价格" id="p_isShow">-->
+                        <div class="mui-switch mui-active" id="p_isShow">
+                            <div class="mui-switch-handle"></div>
+                        </div>
+                    </div>
+                    <div class="mui-input-row">
+                        <label> 排　序</label>
+                        <input type="number" class="mui-input-clear" placeholder="数字越大则排在越前面，默认0" id="p_order">
+                    </div>
+                    <div class="mui-input-row" id="desc">
+                        <label> 简单描述</label>
+                        <textarea class="mui-input-clear" placeholder="输入一些简单的产品描述，字数不要太多" id="p_desc"></textarea>
+                    </div>
+                    <div class="mui-input-row" id="image">
+                        <label> 产品图片</label>
+                        <input id="p_imgurl" type="file" onchange="preview(this)">
+                        <div onclick="document.getElementById('p_imgurl').click()"><img id="ImgPr" width="140" height="140" src="/img/logo/image_add.png"/></div>
+                    </div>
+                    <div class="mui-button-row">
+                        <button type="button" class="mui-btn mui-btn-danger" id="modal_close">取消</button>
+                        <button type="button" class="mui-btn mui-btn-primary" id="submitinfo">确认</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

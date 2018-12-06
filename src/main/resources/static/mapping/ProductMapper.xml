@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.myf.show.mapper.ProductMapper">
+    <insert id="addProduct" parameterType="com.myf.show.model.Product">
+            insert into product( p_name, p_price, p_category, p_imgurl, p_desc, p_isShow, p_order) VALUES (#{p_name},#{p_price},#{p_category},#{p_imgurl},#{p_desc},#{p_isShow},#{p_order})
+    </insert>
+    <delete id="delProduct" parameterType="int">
+        delete from product where id=#{id}
+    </delete>
+    <update id="updateProduct" parameterType="com.myf.show.model.Product">
+        update product SET p_name=#{p_name},p_price=#{p_price},p_category=#{p_category},p_imgurl=#{p_imgurl},p_desc=#{p_desc},p_isShow=#{p_isShow},p_order=#{p_order} where id=#{id}
+    </update>
+    <select id="getProductById" parameterType="int" resultType="com.myf.show.model.Product">
+        select * from product where id=#{id}
+    </select>
+    <select id="getProductByCategory" parameterType="int" resultType="com.myf.show.model.Product">
+        select * from product where p_category=#{p_category} and p_isShow=1 order by p_order desc,id desc
+    </select>
+    <select id="searchProductByName" parameterType="string" resultType="com.myf.show.model.Product">
+        select * from product where p_name like CONCAT('%',#{p_name},'%')  and p_isShow=1 order by p_order desc,id desc
+    </select>
+    <select id="getAllProduct" resultType="com.myf.show.model.Product">
+        select * from product order by p_isShow desc,p_order desc,id desc
+    </select>
+</mapper>

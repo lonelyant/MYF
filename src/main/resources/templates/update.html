@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"/>
+    <title>洺媛坊 | 产品管理</title>
+    <script src="/js/mui.min.js"></script>
+    <script src="/js/jquery-2.1.1.js"></script>
+    <script src="/js/jquery.lazyload.js"></script>
+    <script src="/js/update.js"></script>
+    <script src="/js/uploadPreview.js"></script>
+    <link href="/css/mui.min.css" rel="stylesheet"/>
+    <link href="/css/admin.css" rel="stylesheet"/>
+
+</head>
+<body>
+<div class="mui-content">
+    <!--<div class="mui-modal" id="popover">-->
+        <!--<div class="mui-scroll-wrapper">
+            <div class="mui-scroll">-->
+                <div class="mui-card">
+                    <h3 style="text-align: center;margin-top: 1rem">产品更新</h3><br>
+                    <form class="mui-input-group">
+                        <input type="hidden" th:value="${session.product.getId()}" id="p_id">
+                        <div class="mui-input-row">
+                            <label>产品名称</label>
+                            <input type="text" class="mui-input-clear" placeholder="请输入产品名称" id="p_name" th:value="${session.product.getP_name()}">
+                        </div>
+                        <div class="mui-input-row">
+                            <label> 价　格</label>
+                            <input type="number" class="mui-input-clear" placeholder="请输入产品价格" id="p_price" th:value="${session.product.getP_price()}">
+                        </div>
+                        <div class="mui-input-row">
+                            <label> 分　类</label>
+                            <select id="p_category">
+                                <option value="1" th:selected="${session.product.getP_category() == '1'}" >季泉 - 套装系列</option>
+                                <option value="2" th:selected="${session.product.getP_category() == '2'}">季泉 - 单品系列</option>
+                                <option value="3" th:selected="${session.product.getP_category() == '3'}">季泉 - 面膜系列</option>
+                                <option value="4" th:selected="${session.product.getP_category() == '4'}">季泉 - 塑形减脂</option>
+                                <option value="5" th:selected="${session.product.getP_category() == '5'}">香仁堂 - 健康养生</option>
+                                <option value="6" th:selected="${session.product.getP_category() == '6'}">香仁堂 - 排毒养颜</option>
+                                <option value="7" th:selected="${session.product.getP_category() == '7'}">护发养发 - 植物养发</option>
+                                <option value="8" th:selected="${session.product.getP_category() == '8'}">护发养发 - 健康护发</option>
+                            </select>
+                            <!--<input type="number" class="mui-input-clear" placeholder="请输入产品价格" id="p_category">-->
+                        </div>
+                        <div class="mui-input-row">
+                            <label>是否展示</label>
+                            <!--<input type="number" class="mui-input-clear" placeholder="请输入产品价格" id="p_isShow">-->
+                            <div class="mui-switch mui-active" id="p_isShow" th:class="${session.product.getP_isShow() == 1 ? 'mui-switch mui-active' : 'mui-switch'}">
+                                <div class="mui-switch-handle"></div>
+                            </div>
+                        </div>
+                        <div class="mui-input-row">
+                            <label> 排　序</label>
+                            <input type="number" class="mui-input-clear" placeholder="数字越大则排在越前面，默认0" id="p_order" th:value="${session.product.getP_order()}">
+                        </div>
+                        <div class="mui-input-row" id="desc">
+                            <label> 简单描述</label>
+                            <textarea class="mui-input-clear" placeholder="输入一些简单的产品描述，字数不要太多" id="p_desc" th:text="${session.product.getP_desc()}"></textarea>
+                        </div>
+                        <div class="mui-input-row" id="image">
+                            <label> 产品图片</label>
+                            <input id="p_imgurl" type="file" onchange="preview(this)">
+                            <div onclick="document.getElementById('p_imgurl').click()"><img id="ImgPr" width="140" height="140" th:src=" '/img/product/' + ${session.product.getP_imgurl()}"/></div>
+                        </div>
+                        <div class="mui-button-row">
+                            <button type="button" class="mui-btn mui-btn-danger" onclick="javascript :history.back(-1);" id="modal_close">取消</button>
+                            <button type="button" class="mui-btn mui-btn-primary" id="submitinfo">更新</button>
+                        </div>
+                    </form>
+                </div>
+            <!--</div>
+        </div>-->
+    <!--</div>-->
+</div>
+</body>
+</html>
